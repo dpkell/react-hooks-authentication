@@ -1,0 +1,23 @@
+.sign-up {
+    width: 45rem;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+    margin-top: 3rem;
+    border-radius: .5rem;
+    box-shadow: 0 1.5rem 4rem rgba(black, .15);
+
+    .title {
+        margin: 1rem auto;
+    }
+
+    .sub-title {
+        margin: 0 auto;
+    }
+
+    .form-button {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+}

@@ -1,0 +1,10 @@
+.homepage {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(to right bottom, rgba(#59dafa, .7), rgba(white, .6)), url('../../assets/hooks-logo.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
