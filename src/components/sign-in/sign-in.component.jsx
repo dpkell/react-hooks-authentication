@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import LoginButton from '../login-button/login-button.component';
 
+import { auth, signInWithGoogle, createUserProfileDocument } from '../../firebase/firebase.utils';
+
 import './sign-in.styles.scss';
 
 const SignIn = () => {
@@ -13,10 +15,10 @@ const SignIn = () => {
 
     const { email, password } = userCredentials;
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.prevetDefault();
 
-        //Sign-in authorization
+        
     }
 
     const handleChange = event => {
@@ -43,10 +45,12 @@ const SignIn = () => {
                     name = 'password'
                     value = {password}
                     handleChange= {handleChange}
+                    label='Password'
+                    required
                 />
                 <div className='buttons'>
                     <LoginButton type='submit'>Sign In</LoginButton>
-                    <LoginButton type='button' isGoogleSignIn>
+                    <LoginButton type='button' onClick={signInWithGoogle} isGoogleSignIn>
                         Sign In with Google
                     </LoginButton>
                 </div>

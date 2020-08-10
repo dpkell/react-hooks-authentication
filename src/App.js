@@ -3,18 +3,22 @@ import { Switch, Route } from 'react-router-dom';
 
 import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
-import SignInAndSignUp from './pages/sign-in-sign-up-page/sign-in-sign-up-page.component';
+
+import LoginRedirectRoute from './components/login-redirect/login-redirect.component';
+
+import { AuthProvider } from './AuthContext';
+
 import './App.scss';
 
 function App() {
   return (
-    <div className='futureAuthContext'>
+    <AuthProvider>
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
-        <Route exact path='/signin' component={SignInAndSignUp} />
+        <LoginRedirectRoute exact path='/signin' />
       </Switch>
-    </div>
+    </AuthProvider>
   );
 }
 

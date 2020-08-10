@@ -1,0 +1,17 @@
+.options-container {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 2rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+
+    &:hover {
+        color: white;
+    }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/hooks-logo-outline.svg';
+import SignInSignOutLink from '../sign-in-sign-out-link/sign-in-sign-out-link.component';
 
 import './header.styles.scss';
 
@@ -15,9 +16,7 @@ const Header = () => (
             <h1 className='header-title'>Mastering Hooks</h1>
         </div>
 
-        <div className='options-container'>
-            <Link to='/signin'>Sign In</Link>
-        </div>
+        <SignInSignOutLink />
     </div>
 );
 
