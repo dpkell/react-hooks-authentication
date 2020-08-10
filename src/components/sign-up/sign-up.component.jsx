@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import LoginButton from '../login-button/login-button.component';
 
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
+
 import './sign-up.styles.scss';
 
-const SignUp = () => {
+const SignUp = ({history}) => {
     const [userCredentials, setUserCredentials] = useState({
         displayName: '',
         email: '',
@@ -15,32 +17,42 @@ const SignUp = () => {
         confirmPassword: ''
     });
 
-    const { displayName, email, password, confirmPassword } = userCredentials;
+    const [isLoading, setIsLoading] = useState(false);
 
+    
+    const _isMounted = useRef(true);
+
+    useEffect(() => {
+        return () => {
+            _isMounted.current = false;
+        }
+    }, []);
+
+    const { displayName, email, password, confirmPassword } = userCredentials;
+    
     const handleSubmit = async event => {
         event.preventDefault();
-
-        if (password !== confirmPassword) {
-            alert('Submission Failed: Passwords do not match');
-            return;
-        }
-
+        setIsLoading(true);
         try {
-            await auth.createUserWithEmailAndPassword( 
-                userCredentials.email, 
-                userCredentials.password
-            );
-
-            await createUserProfileDocument(userCredentials, { displayName });
-
-            setUserCredentials({
-                displayName: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            });
+            if (_isMounted.current) {
+                const { user } = await auth.createUserWithEmailAndPassword(email, password);
+                await createUserProfileDocument(user, { displayName });
+                history.push('/');
+            }
+            
         } catch (error) {
             console.log(error);
+        } finally {
+            if (_isMounted.current) {
+                setUserCredentials({
+                    displayName: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: ''
+                });
+                setIsLoading(false);
+            }
+            
         }
     };
 
@@ -97,4 +109,4 @@ const SignUp = () => {
     
 };
 
-export default SignUp;
+export default withRouter(SignUp);

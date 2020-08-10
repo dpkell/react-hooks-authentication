@@ -18,7 +18,12 @@ const SignIn = () => {
     const handleSubmit = async event => {
         event.prevetDefault();
 
-        
+        try {
+            const { user } = await auth.signInWithEmailAndPassword(email, password);
+            await createUserProfileDocument(user);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleChange = event => {
