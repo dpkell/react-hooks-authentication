@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { withRouter, Redirect } from 'react-router-dom';
 import FormInput from '../form-input/form-input.component';
 import LoginButton from '../login-button/login-button.component';
 
-import { auth, signInWithGoogle, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+
+import { AuthContext } from '../../AuthContext';
 
 import './sign-in.styles.scss';
 
 const SignIn = ({ history }) => {
+    
     const [userCredentials, setUserCredentials] = useState({
         email: '',
         password: ''
@@ -26,21 +29,23 @@ const SignIn = ({ history }) => {
     const { email, password } = userCredentials;
 
     const handleSubmit = async event => {
-        event.prevetDefault();
-
+        event.preventDefault();
         setIsLoading(true);
-
         try {
-            await auth.signInWithEmailAndPassword(email, password);                
-            history.push('/');
+            if (_isMounted.current) {
+                await auth.signInWithEmailAndPassword(email, password);
+                history.push('/');
+            }
         } catch (error) {
             console.log(error);
         } finally {
-            setUserCredentials({
-                email: '',
-                password: ''
-            });
-            setIsLoading(false);
+            if (_isMounted.current) {
+                setIsLoading(false);
+                setUserCredentials({
+                    email: '',
+                    password: ''
+                });
+            }
         }
     };
 
