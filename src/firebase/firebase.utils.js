@@ -35,13 +35,7 @@ googleProvider.setCustomParameters({prompt: 'select_account'});
 // Google sign-in function
 
 export const signInWithGoogle = async () => {
-    try {
-        const { user } = await auth.signInWithPopup(googleProvider);
-        console.log(user);
-        await createUserProfileDocument(user);
-    } catch (error) {
-        console.log(error);
-    }
+    await auth.signInWithPopup(googleProvider);
 }
 
 // Takes userAuth objective and any additional data and queries for snapshot of document. If no snapshot is found, a document
@@ -65,13 +59,9 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
                 createdAt,
                 ...additionalData
             });
-
-            console.log(userRef);
-
         } catch (error) {
             console.log('error creating user document: ', error.message);
         }
     }
-
     return userRef;
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext } from 'react';
 
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 // Creation of Authorized User Context
 
@@ -14,9 +14,23 @@ export const AuthProvider = ({ children }) => {
 
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => setCurrentUser(user));
+        const unsubscribe = auth.onAuthStateChanged(async userAuth => {
+            if (userAuth) {
+                const userRef = await createUserProfileDocument(userAuth);
 
-        return () => unsubscribe();
+                userRef.onSnapshot(snapShot => {
+                    setCurrentUser({
+                        id: snapShot.id,
+                        ...snapShot.data()
+                    });
+                });
+            }
+            setCurrentUser(userAuth);
+        });
+
+        return () => {
+            unsubscribe();
+        }
     }, []);
 
     return (
@@ -24,6 +38,7 @@ export const AuthProvider = ({ children }) => {
             value={{ currentUser }}
         >
             {children}
+            {console.log(currentUser)}
         </AuthContext.Provider>
     );
 

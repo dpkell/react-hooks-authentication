@@ -25,7 +25,7 @@ const SignUp = ({history}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     /**
-     * useRef is used to becasue we a reference object pointed to the component for the full lifetime of the component.
+     * useRef is used to becasue we need a reference object pointed to the component for the full lifetime of the component.
      * This is especially true since we are using async functions within the component and need to make sure that the 
      * component properly unmounts using useEffect after our async calls to firebase successfully executes.
      */

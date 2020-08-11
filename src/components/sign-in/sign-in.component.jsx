@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
+import { withRouter } from 'react-router-dom';
 import FormInput from '../form-input/form-input.component';
 import LoginButton from '../login-button/login-button.component';
 
@@ -7,24 +7,42 @@ import { auth, signInWithGoogle, createUserProfileDocument } from '../../firebas
 
 import './sign-in.styles.scss';
 
-const SignIn = () => {
+const SignIn = ({ history }) => {
     const [userCredentials, setUserCredentials] = useState({
         email: '',
         password: ''
     });
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const _isMounted = useRef(true);
+
+    useEffect(() => {
+        return () => {
+            _isMounted.current = false;
+        }
+    }, []);
 
     const { email, password } = userCredentials;
 
     const handleSubmit = async event => {
         event.prevetDefault();
 
+        setIsLoading(true);
+
         try {
-            const { user } = await auth.signInWithEmailAndPassword(email, password);
-            await createUserProfileDocument(user);
+            await auth.signInWithEmailAndPassword(email, password);                
+            history.push('/');
         } catch (error) {
             console.log(error);
+        } finally {
+            setUserCredentials({
+                email: '',
+                password: ''
+            });
+            setIsLoading(false);
         }
-    }
+    };
 
     const handleChange = event => {
         const { name, value } = event.target;
@@ -64,4 +82,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default withRouter(SignIn);
