@@ -1,10 +1,13 @@
 import React from 'react';
-import { ReactComponent as BackgroundLogo } from '../../assets/hooks-logo.png';
+
+import DataController from '../../components/data-entry-controller/data-entry-controller.component';
+
 import './homepage.styles.scss';
 
 const HomePage = () => {
     return (
         <div className='homepage'>
+            <DataController />
             
         </div>
     )

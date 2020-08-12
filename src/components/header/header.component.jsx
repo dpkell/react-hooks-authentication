@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/hooks-logo-outline.svg';
-import SignInSignOutLink from '../sign-in-sign-out-link/sign-in-sign-out-link.component';
+
 
 import { AuthContext } from '../../AuthContext';
 import { auth } from '../../firebase/firebase.utils';
