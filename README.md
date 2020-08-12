@@ -14,7 +14,7 @@ that they can be properly utilized in future projects (such as KeepingCents).
 
 2. Implemented functionality for user sign-up, sign-in with email and password, and google sign in using React hooks.
 
-3. Began creating and styling data-entry-controller, data-entry-table, and data-entry components
+3. Began creating and styling data-entry-controller, data-entry-table, and data-entry components.
 
 ### 08/08/2020
 

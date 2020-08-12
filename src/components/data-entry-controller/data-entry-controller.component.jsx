@@ -20,22 +20,33 @@ const DataController = () => {
     return (
         <div className='controller-container'>
             <form className='data-entry-form'>
-                <input className = 'item-name'
-                    type = 'text'
-                    name = 'itemName'
-                    value = {itemName}
-                    onChange = {handleChange}
-                    placeholder = 'Item Name'
-                    required
-                />
-                <input className='item-description'
-                    type = 'text'
-                    name = 'itemDescription'
-                    value = {itemDescription}
-                    onChange = {handleChange}
-                    placeholder = 'Item Description'
-                    required
-                />
+                <div className='form-inputs'>
+                    <label className='item-name-label'>
+                        Item Name:
+                        <input 
+                            className = 'item-name'
+                            type = 'text'
+                            name = 'itemName'
+                            value = {itemName}
+                            onChange = {handleChange}
+                            placeholder = 'Item Name'
+                            required
+                        />
+                    </label>
+                    
+                    <label className='item-description-label'>
+                        Item Description:
+                        <input 
+                            className='item-description'
+                            type = 'text'
+                            name = 'itemDescription'
+                            value = {itemDescription}
+                            onChange = {handleChange}
+                            placeholder = 'Item Description'
+                            required
+                        />
+                    </label>
+                </div>
                 <button className = 'submit-button' type='submit'>
                     <SubmitIcon className='submit-icon' />
                 </button>

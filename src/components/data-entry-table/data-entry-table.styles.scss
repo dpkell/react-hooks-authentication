@@ -1,0 +1,11 @@
+.data-table {
+    width: 65vw;
+    height: 80vh;
+    border-radius: 2rem;
+    box-shadow: 0 1.5rem 4rem rgba(black, .15);
+    background: rgba(white, .65);
+
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: auto;
+}

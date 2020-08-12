@@ -1,0 +1,58 @@
+.data-wrapper {
+    width: 100%;
+    height: 3rem;
+    background: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .item-name-wrapper {
+        height: 100%;
+        width: 30%;
+        padding: 0 1.6rem;
+        overflow: hidden;
+
+        .item-name-text {
+            height: 100%;
+            font-size: 1.8rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .item-description-wrapper {
+        height: 100%;
+        width: 55%;
+        padding: 0 1.6rem;
+        overflow: hidden;
+
+        .item-description-text {
+            padding-top: 2.5px;
+            height: 100%;
+            font-size: 1.4rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .remove-button {
+        width: 15%;
+        padding-top: 2.5px;
+        display: flex;
+        justify-content: center;
+
+        .remove-item-icon {
+            cursor: pointer;
+
+            &:hover {
+                fill: red;
+            }
+        }
+    }
+
+}

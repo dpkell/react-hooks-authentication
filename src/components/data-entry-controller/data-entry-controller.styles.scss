@@ -1,9 +1,10 @@
 .controller-container {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     height: 5vh;
     width: 60vw;
-    background-color: rgba(rgb(214, 214, 214), .8);
+    background-color: rgba(#0c6edd, .8);
     margin: 1.5rem auto;
     border-radius: 2rem;
 
@@ -11,7 +12,20 @@
         width: 100%;
         display: flex;
         justify-content: space-evenly;
-        padding-top: 1rem;
+        
+    }
+
+    .form-inputs {
+        width: 80%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .item-name-label,
+    .item-description-label {
+        font-size: 2rem;
+        line-height: 1.6;
+        color: white;
     }
 
     .item-name,
@@ -24,6 +38,7 @@
     }
 
     .submit-button {
+        margin-top: .6rem;
         position: relative;
         border: none;
         height: 2.2rem;

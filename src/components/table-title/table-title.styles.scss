@@ -1,0 +1,18 @@
+.title-wrapper {
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #07c7f7;
+    border-top-right-radius: 1.7rem;
+    border-top-left-radius: 1.7rem;
+
+    .title {
+        font-size: 2.4rem;
+        line-height: 1.4;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: white;
+    }
+}
