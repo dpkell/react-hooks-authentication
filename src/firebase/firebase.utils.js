@@ -60,8 +60,69 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
                 ...additionalData
             });
         } catch (error) {
-            console.log('error creating user document: ', error.message);
+            console.log('Error creating user document: ', error.message);
         }
     }
     return userRef;
+};
+
+export const createItemDocument = async (userAuth, item, additionalData) => {
+    if(!userAuth) return;
+
+    const { itemName, itemDescription, id } = item;
+    const createdAt = new Date();
+
+    const itemDocId = firestore.collection('users').document(userAuth.uid).collection('items').document().getID();
+    const itemRef = firestore.doc(`users/${userAuth.uid}/items/${itemDocId}`);
+
+    try {
+        await itemRef.set({
+            id,
+            itemName,
+            itemDescription,
+            createdAt,
+            ...additionalData
+        });
+    } catch (error) {
+        console.log('Error creating item document: ', error.message);
+    }
+
+    return itemRef;
+};
+
+export const deleteItemDocument = async (userAuth, item) => {
+    if(!userAuth) return;
+
+    const { itemName } = item;
+    const itemsRef = firestore.collection('users').document(userAuth.uid).collection('items');
+    const query = itemsRef.where('itemName', '==', itemName);
+
+    const snapShot = await query.get();
+
+    if (snapShot.exists) {
+        try {
+            snapShot.delete();
+            console.log('Document successfully deleted!');
+        } catch (error) {
+            console.log('Error deleting item document', error.message);
+        }
+    }
+};
+
+export const mapItemsCollection = async (userAuth) => {
+    if (!userAuth) return;
+
+    const itemsRef = firestore.collection('users').document(userAuth.uid).collection('items');
+
+    const snapShot = await itemsRef.get()
+
+    snapShot.docs.map(doc => {
+        const { itemName, itemDescription, id } = doc.data();
+
+        return {
+            id,
+            itemName,
+            itemDescription
+        }
+    });
 };
