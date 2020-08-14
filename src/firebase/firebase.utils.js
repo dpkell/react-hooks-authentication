@@ -67,22 +67,24 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 };
 
 export const createItemDocument = async (userAuth, item, additionalData) => {
-    if(!userAuth) return;
+     if(!userAuth) return;
 
-    const { itemName, itemDescription, id } = item;
+    const { itemName, itemDescription } = item;
     const createdAt = new Date();
 
-    const itemDocId = firestore.collection('users').document(userAuth.uid).collection('items').document().getID();
-    const itemRef = firestore.doc(`users/${userAuth.uid}/items/${itemDocId}`);
+    const itemDocInit = firestore.collection('users').doc(userAuth.id).collection('items').doc();
+    const itemDocSnapShot = await itemDocInit.get();
+    const itemDocId = itemDocSnapShot.id;
+    const itemRef = firestore.doc(`users/${userAuth.id}/items/${itemDocId}`);
 
     try {
         await itemRef.set({
-            id,
             itemName,
             itemDescription,
             createdAt,
             ...additionalData
         });
+        
     } catch (error) {
         console.log('Error creating item document: ', error.message);
     }
@@ -94,7 +96,7 @@ export const deleteItemDocument = async (userAuth, item) => {
     if(!userAuth) return;
 
     const { itemName } = item;
-    const itemsRef = firestore.collection('users').document(userAuth.uid).collection('items');
+    const itemsRef = firestore.collection('users').document(userAuth.id).collection('items');
     const query = itemsRef.where('itemName', '==', itemName);
 
     const snapShot = await query.get();
@@ -112,7 +114,7 @@ export const deleteItemDocument = async (userAuth, item) => {
 export const mapItemsCollection = async (userAuth) => {
     if (!userAuth) return;
 
-    const itemsRef = firestore.collection('users').document(userAuth.uid).collection('items');
+    const itemsRef = firestore.collection('users').document(userAuth.id).collection('items');
 
     const snapShot = await itemsRef.get()
 
