@@ -100,37 +100,13 @@ export const deleteItemDocument = async (userAuth, itemName) => {
     const query = itemsRef.where('itemName', '==', `${itemName}`);
 
     const querySnapShot = await query.get();
-    console.log(querySnapShot);
     if (!querySnapShot.empty) {
-        console.log('if Statement accessed.')
         try {
             querySnapShot.forEach(doc => {
                 doc.ref.delete();
             });
-            console.log('Document deleted successfully!');
-            
         } catch (error) {
             console.log('Error deleting item document', error.message);
         }
     }
-};
-
-export const mapItemsCollection = async (userAuth) => {
-    if (!userAuth) return;
-
-    const itemsRef = firestore.collection('users').doc(`${userAuth.id}`).collection('items');
-
-    const snapShot = await itemsRef.get()
-
-    // try {
-    //     snapShot.docs.map(doc => {
-    //         const data = doc.data();
-    //         console.log(data);
-    //         return data;
-    //     });
-    // } catch (error) {
-    //     console.log('Error retrieving data from items collection: ', error.message);
-    // }
-
-    return snapShot;
 };

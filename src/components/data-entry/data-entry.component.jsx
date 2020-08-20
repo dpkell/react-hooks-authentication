@@ -12,7 +12,6 @@ const DataEntry = (item) => {
     const { currentUser } = useContext(AuthContext);
     
     const removeItem = () => {
-        console.log('function called')
         deleteItemDocument(currentUser, itemName);
     }
 
