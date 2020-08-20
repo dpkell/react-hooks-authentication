@@ -96,7 +96,7 @@ export const deleteItemDocument = async (userAuth, item) => {
     if(!userAuth) return;
 
     const { itemName } = item;
-    const itemsRef = firestore.collection('users').document(userAuth.id).collection('items');
+    const itemsRef = firestore.collection('users').doc(userAuth.id).collection('items');
     const query = itemsRef.where('itemName', '==', itemName);
 
     const snapShot = await query.get();
@@ -114,17 +114,19 @@ export const deleteItemDocument = async (userAuth, item) => {
 export const mapItemsCollection = async (userAuth) => {
     if (!userAuth) return;
 
-    const itemsRef = firestore.collection('users').document(userAuth.id).collection('items');
+    const itemsRef = firestore.collection('users').doc(`${userAuth.id}`).collection('items');
 
     const snapShot = await itemsRef.get()
 
-    snapShot.docs.map(doc => {
-        const { itemName, itemDescription, id } = doc.data();
+    // try {
+    //     snapShot.docs.map(doc => {
+    //         const data = doc.data();
+    //         console.log(data);
+    //         return data;
+    //     });
+    // } catch (error) {
+    //     console.log('Error retrieving data from items collection: ', error.message);
+    // }
 
-        return {
-            id,
-            itemName,
-            itemDescription
-        }
-    });
+    return snapShot;
 };

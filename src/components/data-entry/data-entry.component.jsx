@@ -4,18 +4,19 @@ import { ReactComponent as RemoveItemIcon } from '../../assets/cross.svg';
 
 import './data-entry.styles.scss';
 
-const DataEntry = (props) => {
-
+const DataEntry = (item) => {
+    const { itemName, itemDescription } = item;
+    console.log(`${itemName} ${itemDescription}`);
     return(
         <div className='data-wrapper'>
             <div className='item-name-wrapper'>
                 <p className='item-name-text'>
-                    Item's Name goes here
+                    {itemName}
                 </p>
             </div>
             <div className='item-description-wrapper'>
                 <p className='item-description-text'>
-                    Item description goes here, but let's make a really really really long item description to test hiding overflow!
+                    {itemDescription}
                 </p>
             </div>
             <div className='remove-button' >

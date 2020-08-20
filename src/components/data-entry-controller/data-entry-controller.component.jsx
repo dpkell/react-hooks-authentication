@@ -28,6 +28,7 @@ const DataController = () => {
     const { itemName, itemDescription } = entryData;
 
     const { dataId } = entryId;
+    
     const handleChange = event => {
         const { name, value } = event.target;
         setEntryData({...entryData, [name]: value});
@@ -36,7 +37,6 @@ const DataController = () => {
     const handleSubmit = async event => {
         event.preventDefault();
         setIsLoading(true);
-        console.log(entryData);
         setEntryId({dataId: dataId+1});
         try {
             await createItemDocument(currentUser, entryData, entryId );
