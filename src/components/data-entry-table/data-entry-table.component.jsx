@@ -16,41 +16,40 @@ import './data-entry-table.styles.scss';
 const DataTable = () => {
     const { currentUser } = useContext(AuthContext);
     const [itemsList, setItemsList] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(true);
+    
 
     useEffect( () => {
         const unsubscribe = async () => {
             const itemsRef = firestore.collection('users').doc(`${currentUser.id}`).collection('items');
-            const snapShot = await itemsRef.get();
-            try {
+            itemsRef.onSnapshot( itemsSnapShot => {
                 const itemArr = [];
-                snapShot.docs.map(doc => {
-                    const item = {
-                        ...doc.data()
-                    }
-                    itemArr.push(item);
-                });
+                itemsSnapShot.docs.map(doc => {
+                    itemArr.push(doc.data());
+                })
+                itemsListSort(itemArr)
                 setItemsList(itemArr);
-                setIsLoading(false);
-            } catch (error) {
-                console.log(error.message);
-            }  
+                }
+            );
         };
         unsubscribe();
+
+        return () => {
+            unsubscribe();
+        }
     }, [currentUser]);
 
-    if (isLoading) {
-        return <>Loading...</>
+    const itemsListSort = (itemArr) => {
+        itemArr.sort(function(a, b){return a.dataId - b.dataId});
     }
 
-    console.log(itemsList);
+    
 
     return (
         <div className='data-table'>
             <TableTitle />
             
             {
-                itemsList.map( item => (
+                itemsList.map((item) => (
                     <DataEntry key={item.dataId} {...item} />
                 ))
             }

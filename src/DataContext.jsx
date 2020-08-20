@@ -13,31 +13,30 @@ export const DataContext = createContext();
 export const DataProvider = ({ children }) => {
     const { currentUser } = useContext(AuthContext);
     const [itemsList, setItemsList] = useState([]);
-
-    const unsubscribe = async (currentUser) => {
-        if (currentUser) {
-            firestore.collection('users')
-            .doc(`${currentUser.id}`)
-            .collection('items')
-            .onSnapshot( snapShot => {
-                if (snapShot.size) {
-                    let itemsArr = [];
-                    snapShot.forEach(doc => 
-                        itemsArr.push({...doc.data() })
-                    );
-                    setItemsList(itemsArr);
-                }
-            }); 
-        }
-    };
-
+    
     useEffect( () => {
-        unsubscribe(currentUser);
-        return () => {
-            unsubscribe(currentUser);
-        }
+        const unsubscribe = async () => {
+            const itemsRef = firestore.collection('users').doc(`${currentUser.id}`).collection('items');
+            const snapShot = await itemsRef.get();
+            try {
+                const itemArr = [];
+                snapShot.docs.map(doc => {
+                    const item = {
+                        ...doc.data()
+                    }
+                    itemArr.push(item);
+                });
+                setItemsList(itemArr);
+            } catch (error) {
+                console.log(error.message);
+            }  
+        };
+        unsubscribe();
 
-    }, []);
+        return () => {
+            unsubscribe();
+        }
+    }, [currentUser]);
 
     return (
         <DataContext.Provider value = {{ itemsList }}>

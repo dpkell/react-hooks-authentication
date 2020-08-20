@@ -92,19 +92,23 @@ export const createItemDocument = async (userAuth, item, additionalData) => {
     return itemRef;
 };
 
-export const deleteItemDocument = async (userAuth, item) => {
+export const deleteItemDocument = async (userAuth, itemName) => {
     if(!userAuth) return;
 
-    const { itemName } = item;
-    const itemsRef = firestore.collection('users').doc(userAuth.id).collection('items');
-    const query = itemsRef.where('itemName', '==', itemName);
+    
+    const itemsRef = firestore.collection('users').doc(`${userAuth.id}`).collection('items');
+    const query = itemsRef.where('itemName', '==', `${itemName}`);
 
-    const snapShot = await query.get();
-
-    if (snapShot.exists) {
+    const querySnapShot = await query.get();
+    console.log(querySnapShot);
+    if (!querySnapShot.empty) {
+        console.log('if Statement accessed.')
         try {
-            snapShot.delete();
-            console.log('Document successfully deleted!');
+            querySnapShot.forEach(doc => {
+                doc.ref.delete();
+            });
+            console.log('Document deleted successfully!');
+            
         } catch (error) {
             console.log('Error deleting item document', error.message);
         }

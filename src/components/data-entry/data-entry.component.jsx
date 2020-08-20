@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
+import { AuthContext } from '../../AuthContext';
+import { deleteItemDocument } from '../../firebase/firebase.utils';
 
 import { ReactComponent as RemoveItemIcon } from '../../assets/cross.svg';
 
@@ -6,7 +9,14 @@ import './data-entry.styles.scss';
 
 const DataEntry = (item) => {
     const { itemName, itemDescription } = item;
-    console.log(`${itemName} ${itemDescription}`);
+    const { currentUser } = useContext(AuthContext);
+    
+    const removeItem = () => {
+        console.log('function called')
+        deleteItemDocument(currentUser, itemName);
+    }
+
+
     return(
         <div className='data-wrapper'>
             <div className='item-name-wrapper'>
@@ -20,7 +30,7 @@ const DataEntry = (item) => {
                 </p>
             </div>
             <div className='remove-button' >
-                <RemoveItemIcon className='remove-item-icon' type='submit' />
+                <RemoveItemIcon className='remove-item-icon' type='submit' onClick={removeItem} />
             </div>
         </div>
     );
