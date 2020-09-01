@@ -12,7 +12,7 @@ const DataController = () => {
         itemName: '',
         itemDescription: '',
     });
-    const [entryId, setEntryId] = usePersistedState('dataId', 0);
+    const [entryId, setEntryId] = usePersistedState('dataId', {dataId: 0});
     const [isLoading, setIsLoading] = useState(false);
     const _isMounted = useRef(true);
 
